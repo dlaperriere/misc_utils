@@ -297,8 +297,8 @@ def main():
         tcp(host, port)
         udp(host, port)
     except socket.error as msg:
-        print('Connection failed : ' + str(msg) )
-        sys.exit(-1) 
+        print('Connection failed : ' + str(msg))
+        sys.exit(-1)
 
 if __name__ == "__main__":
     main()

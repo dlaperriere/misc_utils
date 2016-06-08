@@ -51,7 +51,7 @@ def main():
     if len(sys.argv) == 2:
         url = sys.argv[1]
     else:
-        print ("Usage: python head_http.py url")
+        print("Usage: python head_http.py url")
         sys.exit(-1)
 
     if not re.match('(?:http|https)://', url):
@@ -62,12 +62,12 @@ def main():
         response = urllib2.urlopen(request)
         time.sleep(timeout)
     except urllib2.URLError as e:
-        print (url + " error : \n" + str(e.reason))
+        print(url + " error : \n" + str(e.reason))
         sys.exit(-1)
 
-    print (url + ":\n")
+    print(url + ":\n")
     # print ("Status: " + str(response.getcode()))
-    print (response.info())
+    print(response.info())
 
 if __name__ == "__main__":
     main()

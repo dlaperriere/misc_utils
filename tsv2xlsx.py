@@ -126,7 +126,8 @@ def main():
     pyargs = parser.parse_args()
 
     if pyargs.file is None and pyargs.list is None:
-        parser.exit(message="must provide tsv file (-f) or tsv list (-l)...",status=-1)
+        parser.exit(
+            message="must provide tsv file (-f) or tsv list (-l)...", status=-1)
 
     tsv_list = list()
     if pyargs.file is not None:

@@ -67,19 +67,20 @@ def build_argparser():
                         default=2,
                         help='number of file to process in parallel')
 
-
     parser.add_argument('-v', '--version', action='version',
                         version="%(prog)s v" + __version__)
 
     return parser
 
+
 def runCommand(params):
     """Run command with file as parameter"""
-    command,file =  params
+    command, file = params
     command_line = command + " " + file
-    out,status = cmd.run(command_line)
-    print("# "+ command_line+":", file=sys.stderr)
+    out, status = cmd.run(command_line)
+    print("# " + command_line + ":", file=sys.stderr)
     print(out, file=sys.stdout)
+
 
 def main():
     """ Main: parse arguments and run command in parallel"""
@@ -100,15 +101,13 @@ def main():
     for line in pyargs.files:
         line = line.strip()
         if os.path.exists(line):
-            files.append("\""+line+"\"")
-
+            files.append("\"" + line + "\"")
 
     # run command in parallel
     pool = multiprocessing.Pool(cpu)
-    params  = zip(itertools.repeat(command,len(files)),files)
+    params = zip(itertools.repeat(command, len(files)), files)
 
     pool.map(runCommand, params)
-    
 
     print("")
 

@@ -55,18 +55,18 @@ def main():
             request = urllib2.Request(url)
             response = urllib2.urlopen(request)
         except urllib2.URLError as e:
-            print (url + " error : \n" + str(e.reason) + "\n")
+            print(url + " error : \n" + str(e.reason) + "\n")
             continue
 
-        print (url + ":\n")
+        print(url + ":\n")
         data = response.read()
         ip = ip_regexp.search(data)
         if ip:
             print("IP: {}".format(ip.group().decode("utf-8")))
             sys.exit(0)
         else:
-            print ("not found")
-        print (" ")
+            print("not found")
+        print(" ")
         time.sleep(timeout)
 
 if __name__ == "__main__":
