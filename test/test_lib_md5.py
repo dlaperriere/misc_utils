@@ -62,6 +62,24 @@ class TestLibMd5(unittest.TestCase):
             "python3 {} {}".format(script_path, "md5 python3"))
         self.assertEqual(status, 0)
 
+    def test_utf8_python2_3(self):
+        """ run lib/md5.py with python2 and 3 with utf8 file """
+        utf8_path = os.path.abspath(
+            os.path.join(".", "test", "data", "utf8.txt"))
+        md5_v2, status2 = cmd.run(
+            "python2 {} {}".format(script_path, utf8_path))
+        self.assertEqual(status2, 0)
+
+        md5_v3, status3 = cmd.run(
+            "python3 {} {}".format(script_path, utf8_path))
+        self.assertEqual(status3, 0)
+        self.assertTrue(str(md5_v2).find(
+            "a28d7d1d9be5aff95d356e8b52b0244e") != -1)
+        self.assertTrue(str(md5_v3).find(
+            "a28d7d1d9be5aff95d356e8b52b0244e") != -1)
+        self.assertEqual(md5_v2, md5_v3)
+
+
 if __name__ == "__main__":
     unittest.main()
     exit(0)
