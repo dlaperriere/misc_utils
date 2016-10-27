@@ -45,6 +45,7 @@ __author__ = "David Laperriere dlaperriere@outlook.com"
 
 
 def main():
+    """ Main check parameters & get http response header """
     timeout = 3
 
     # check parameters
@@ -52,7 +53,7 @@ def main():
         url = sys.argv[1]
     else:
         print("Usage: python head_http.py url")
-        sys.exit(-1)
+        sys.exit(0)
 
     if not re.match('(?:http|https)://', url):
         url = "http://" + url

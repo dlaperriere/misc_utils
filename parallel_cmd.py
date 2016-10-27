@@ -32,8 +32,6 @@ __version_info__ = (1, 0)
 __version__ = '.'.join(map(str, __version_info__))
 __author__ = "David Laperriere dlaperriere@outlook.com"
 
-cpu = multiprocessing.cpu_count()
-
 
 def build_argparser():
     """ Build command line arguments parser """
@@ -75,8 +73,8 @@ def build_argparser():
 
 def runCommand(params):
     """Run command with file as parameter"""
-    command, file = params
-    command_line = command + " " + file
+    _command, _file = params
+    command_line = _command + " " + _file
     out, status = cmd.run(command_line)
     print("# " + command_line + ":", file=sys.stderr)
     print(out, file=sys.stdout)
@@ -84,6 +82,8 @@ def runCommand(params):
 
 def main():
     """ Main: parse arguments and run command in parallel"""
+
+    cpu = multiprocessing.cpu_count()
 
     # parse command line arguments
     parser = build_argparser()

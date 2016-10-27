@@ -5,7 +5,7 @@ Create an excel file from a tsv file or a list of tsv files
 Usage
 
      python tsv2xlsx.py -f tsv_file -x excel_filename.xlsx
-     
+
      python tsv2xlsx.py -l tsv_list -x excel_filename.xlsx
      ls *.txt | python tsvlist2xlsx.py -l - -x excel_filename.xlsx
 
@@ -18,11 +18,9 @@ import argparse
 import csv
 import os
 import re
-import sys
 import textwrap
 
 from openpyxl import Workbook
-from openpyxl.drawing.image import Image
 
 __version_info__ = (1, 0)
 __version__ = '.'.join(map(str, __version_info__))
@@ -107,20 +105,21 @@ def excel_from_tsv(tsv_files, excel_name):
     ws.title = "Files"
     row = 1
     ws.cell(column=1, row=row, value="File")
-    for file in tsv_files:
+    for tsv_file in tsv_files:
         row += 1
-        ws.cell(column=1, row=row, value=file)
+        ws.cell(column=1, row=row, value=tsv_file)
 
-    for file in tsv_files:
-        filename = os.path.basename(file)
+    for tsv_file in tsv_files:
+        filename = os.path.basename(tsv_file)
         print("  - add {} ".format(filename))
-        excel_add_tsv(file, filename, wb)
+        excel_add_tsv(tsv_file, filename, wb)
 
     wb.save(excel_name)
 
 
 def main():
     """ Main: parse arguments and create excel file """
+
     # parse command line arguments
     parser = build_argparser()
     pyargs = parser.parse_args()

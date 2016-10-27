@@ -39,13 +39,15 @@ __author__ = "David Laperriere dlaperriere@outlook.com"
 
 
 def main():
+    """ Main check parameters & start udp echo server """
+
     # check parameters
     if len(sys.argv) == 3:
         host = sys.argv[1]
         port = int(sys.argv[2])
     else:
         print("Usage: python echo_udp.py host port")
-        sys.exit(-1)
+        sys.exit(0)
 
     # start server
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)

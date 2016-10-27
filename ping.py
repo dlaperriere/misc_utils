@@ -112,9 +112,9 @@ def udp(host, port, timeout=TIMEOUT):
         # print "  Received '"+ str(reply) + "' from " + str(address)
         result = 1
 
-    except socket.error as e:
+    except socket.error as serror:
         result = -1
-        # print "\t"+str(e)
+        # print "\t"+str(serror)
 
     if result >= 0:
         print(" -  udp is reachable ")
@@ -132,7 +132,7 @@ def checksum(source_string):
     I'm not too confident that this is right but testing seems
     to suggest that it gives the same answers as in_cksum in ping.c
     """
-    sum = 0
+    csum = 0
     countTo = (len(source_string) // 2) * 2
     count = 0
     while count < countTo:
@@ -141,17 +141,17 @@ def checksum(source_string):
         else:
             thisVal = ord(source_string[count + 1]) * \
                 256 + ord(source_string[count])
-        sum = sum + thisVal
-        sum = sum & 0xffffffff  # Necessary?
+        csum = csum + thisVal
+        csum = csum & 0xffffffff  # Necessary?
         count = count + 2
 
     if countTo < len(source_string):
-        sum = sum + ord(source_string[len(source_string) - 1])
-        sum = sum & 0xffffffff  # Necessary?
+        csum = csum + ord(source_string[len(source_string) - 1])
+        csum = csum & 0xffffffff  # Necessary?
 
-    sum = (sum >> 16) + (sum & 0xffff)
-    sum = sum + (sum >> 16)
-    answer = ~sum
+    csum = (csum >> 16) + (csum & 0xffff)
+    csum = csum + (csum >> 16)
+    answer = ~csum
     answer = answer & 0xffff
 
     # Swap bytes. Bugger me if I know why.
@@ -177,13 +177,13 @@ def receive_one_ping(my_socket, ID, timeout):
         timeReceived = default_timer()
         recPacket, addr = my_socket.recvfrom(1024)
         icmpHeader = recPacket[20:28]
-        type, code, checksum, packetID, sequence = struct.unpack(
+        itype, code, checksum, packetID, isequence = struct.unpack(
             "bbHHh", icmpHeader
         )
         # Filters out the echo request itself.
         # This can be tested by pinging 127.0.0.1
         # You'll see your own request
-        if type != 8 and packetID == ID:
+        if itype != 8 and packetID == ID:
             bytesInDouble = struct.calcsize("d")
             timeSent = struct.unpack("d", recPacket[28:28 + bytesInDouble])[0]
             return timeReceived - timeSent
@@ -281,6 +281,7 @@ def verbose_ping(dest_addr, timeout=2, count=4):
 
 
 def main():
+    """ Main check parameters & ping host with icmp/tcp/udp """
     if len(sys.argv) == 2:
         host = sys.argv[1]
         port = 80
@@ -289,7 +290,7 @@ def main():
         port = int(sys.argv[2])
     else:
         print("Usage: python ping.py host port")
-        sys.exit(-1)
+        sys.exit(0)
 
     print("ping " + host + " port " + str(port))
     try:

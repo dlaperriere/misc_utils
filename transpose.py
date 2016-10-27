@@ -38,11 +38,11 @@ def usage():
     sys.exit(-1)
 
 
-def read_file(file):
+def read_file(tsv_file):
     """read file or stdin"""
-    if(file == "-" or file == "stdin"):
+    if(tsv_file == "-" or tsv_file == "stdin"):
         return sys.stdin
-    return open(file, 'rU')
+    return open(tsv_file, 'rU')
 
 # Python version compat
 if sys.version_info[0] <= 2:
@@ -52,6 +52,7 @@ elif sys.version_info[0] >= 3:
 
 
 def zipl(*lis):
+    """ Python 2/3 zip_longest """
     if(Py3):
         return itertools.zip_longest(*lis, fillvalue=missing_value)
 
@@ -62,15 +63,19 @@ def zipl(*lis):
 
 
 def main():
+    """ Main check parameters & transpose file """
 
     # check parameters
     if len(sys.argv) >= 2:
-        file = sys.argv[1]
+        afile = sys.argv[1]
+    else:
+        print("Usage: python transpose.py file")
+        sys.exit(0)
 
     # replace blanks
     tmp = tempfile.NamedTemporaryFile(delete=False)
     tmpfile = tmp.name
-    with read_file(file) as f:
+    with read_file(afile) as f:
         data = f.read()
         data = data.replace(sep + sep, sep + missing_value + sep)
         data = data.replace('\n' + sep, '\n' + missing_value + sep)

@@ -32,10 +32,17 @@ ext_backup = '.bak'
 ext_converted = '.conv_eol'
 backup = True
 
+# Python version compat
+if sys.version_info[0] <= 2:
+    Py3 = False
+elif sys.version_info[0] >= 3:
+    Py3 = True
+
 
 def usage():
+    """ Show script parameters """
     print("Usage: converteol.py dos2unix|mac2unix file")
-    sys.exit(-1)
+    sys.exit(0)
 
 # newline conversion methods
 
@@ -63,30 +70,26 @@ def unix2dos(data):
 def unix2mac(data):
     return '\r'.join(data.split('\n'))
 
-# Python version compat
-if sys.version_info[0] <= 2:
-    Py3 = False
-elif sys.version_info[0] >= 3:
-    Py3 = True
 
-
-def read_file(file):
+# read/write files
+def read_file(filename):
     """read file without converting line endings"""
     if Py3:
-        return open(file, "r", newline='')
-    return open(file, "rb")
+        return open(filename, "r", newline='')
+    return open(filename, "rb")
 
 
-def write_file(file):
+def write_file(filename):
     """write file without converting line endings"""
     if Py3:
-        return open(file, "w", newline='')
-    return open(file, "wb")
+        return open(filename, "w", newline='')
+    return open(filename, "wb")
 
 # MAIN
 
 
 def main():
+    """ Main: check parameters and convert end of lines """
 
     # check parameters
     if len(sys.argv) >= 3:
@@ -112,32 +115,32 @@ def main():
         usage()
 
     # convert eol
-    for file in files:
-        if not os.path.isfile(file):
+    for current_file in files:
+        if not os.path.isfile(current_file):
             continue
-        backfile = file + ext_backup
-        newfile = file + ext_converted
+        backfile = current_file + ext_backup
+        newfile = current_file + ext_converted
 
-        with read_file(file) as f:
+        with read_file(current_file) as f:
             data = f.read()
             newdata = convert(data)
         with write_file(newfile) as w:
             w.write(newdata)
 
-        copystat(file, newfile)
+        copystat(current_file, newfile)
         if os.path.isfile(backfile):
             newbackfile = backfile + ext_backup
             while(os.path.isfile(newbackfile)):
                 newbackfile = newbackfile + ext_backup
             os.rename(backfile, newbackfile)
-        os.rename(file, backfile)
-        os.rename(newfile, file)
+        os.rename(current_file, backfile)
+        os.rename(newfile, current_file)
 
         if not backup:
             if os.path.isfile(backfile):
                 os.unlink(backfile)
 
-        print("Converted {}...".format(file))
+        print("Converted {}...".format(current_file))
 
 if __name__ == "__main__":
     main()
