@@ -21,6 +21,13 @@ Run a command and return output,status (0 ok, -1 error)
 
 -----
 
+# md5: Generate MD5 hash of a file or string
+
+### md5sum
+generate md5 hash of a file or string
+
+-----
+
 # r : Utility methods used to run R scripts
 
 
@@ -42,4 +49,6 @@ Run R script
 
     return
      - output,status (0=ok -1=error)
+
 -----
+
