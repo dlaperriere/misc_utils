@@ -99,7 +99,7 @@ def excel_from_tsv(tsv_files, excel_name):
          - tsv_files: list of tsv files
          - excel_name: excel file name
     """
-    wb = Workbook(guess_types=True)
+    wb = Workbook()
     ws = wb.active
 
     ws.title = "Files"
