@@ -42,7 +42,11 @@ def read_file(tsv_file):
     """read file or stdin"""
     if(tsv_file == "-" or tsv_file == "stdin"):
         return sys.stdin
-    return open(tsv_file, 'rU')
+    
+    if(Py3):
+        return open(tsv_file, 'r')
+    
+    return open(tsv_file, 'rU')   
 
 # Python version compat
 if sys.version_info[0] <= 2:

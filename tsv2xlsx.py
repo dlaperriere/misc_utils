@@ -18,6 +18,7 @@ import argparse
 import csv
 import os
 import re
+import sys
 import textwrap
 
 from openpyxl import Workbook
@@ -26,7 +27,12 @@ __version_info__ = (1, 0)
 __version__ = '.'.join(map(str, __version_info__))
 __author__ = "David Laperriere dlaperriere@outlook.com"
 
-
+# Python version compat
+if sys.version_info[0] <= 2:
+    Py3 = False
+elif sys.version_info[0] >= 3:
+    Py3 = True
+    
 def build_argparser():
     """ Build command line arguments parser """
     parser = argparse.ArgumentParser(
@@ -84,7 +90,11 @@ def excel_add_tsv(filename, title, workbook):
 
     ws = workbook.create_sheet(title=title)
 
-    with open(filename, "rU") as tab_file:
+    mode = "rU"
+    if Py3 :
+        mode = "r"  
+    
+    with open(filename, mode) as tab_file:
         tab_reader = csv.reader(tab_file, delimiter='\t')
         for idx, line in enumerate(tab_reader):
             for column in range(len(line)):
