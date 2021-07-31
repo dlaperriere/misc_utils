@@ -1,2 +1,4 @@
-autopep8==1.2.2
-pep8==1.7.0
+#autopep8==1.2.2
+#pep8==1.7.0
+autopep8>=1.5.7
+pep8>=1.7.1
