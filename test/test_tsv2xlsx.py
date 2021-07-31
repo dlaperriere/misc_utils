@@ -35,10 +35,12 @@ script_path = os.path.join(os.path.abspath(""), script)
 class TestTsv2Xlsx(unittest.TestCase):
     """ Unit tests for tsv2xlsx.py  """
 
+    @unittest.skipIf(sys.version_info[0] >= 3, "skip when testing with Python 3") 
     def test_python2(self):
         out, status = cmd.run("python2 {} -v".format(script_path))
         self.assertEqual(status, 0)
 
+    @unittest.skipIf(sys.version_info[0] <= 2, "skip when testing with Python 2") 
     def test_python3(self):
         out, status = cmd.run(
             "python3 {} -v".format(os.path.join(script_path, script_path)))
