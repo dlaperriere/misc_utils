@@ -9,6 +9,14 @@ set -e
 set -o pipefail
 
 
+# default to python3
+py=python3
+if [ -n "$1" ]; then
+  py=$1
+fi
+
+
+
 if [[ -z "$WORKSPACE" ]]; then
     WORKSPACE=$PWD
 fi
