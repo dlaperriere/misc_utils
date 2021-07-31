@@ -5,7 +5,7 @@ Description
  Test transpose.py script
 
 Note
- - works with python 2.7 and 3.5
+ - works with python 2.7 and 3.6
 
 Author
   David Laperriere <dlaperriere@outlook.com>

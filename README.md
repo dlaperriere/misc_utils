@@ -1,4 +1,4 @@
-# Installation (python 2.7 or 3.5)
+# Installation (python 2.7 or 3.6+)
 
 ```bash
 pip install -r requirements.txt

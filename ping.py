@@ -20,7 +20,7 @@ Usage
 Note
   - Require administrator/sudo privileges
   - Use GPLv2 code from https://github.com/samuel/python-ping/blob/master/ping.py
-  - works with python 2.7 and 3.5
+  - works with python 2.7 and 3.6
 
 Author
 

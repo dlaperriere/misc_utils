@@ -23,7 +23,7 @@ Output
  Note
 
   - Based on http://pymotw.com/2/socket/udp.html
-  - works with python 2.7 and 3.5
+  - works with python 2.7 and 3.6
 
 Author
 
